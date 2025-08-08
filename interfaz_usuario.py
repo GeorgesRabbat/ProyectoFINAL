@@ -1,28 +1,30 @@
 def mostrar_mensaje(mensaje, es_error=False):
-    prefijo = "ERROR: " if es_error else ""
-    print(f"\n{prefijo}{mensaje}")
+    prefijo = ">> ERROR:" if es_error else ">>"
+    print(f"\n{prefijo} {mensaje}")
 
 def mostrar_menu_principal():
     print("\n--- Catálogo de Arte del Museo Metropolitano ---")
     print("1. Buscar obras por Departamento")
     print("2. Buscar obras por Nacionalidad del autor")
     print("3. Buscar obras por Nombre del autor")
-    print("4. Salir")
+    print("\n4. Salir del programa")
     print("------------------------------------------------")
 
 def obtener_opcion_menu():
     return input("Seleccione una opción: ")
 
 def mostrar_departamentos(departamentos):
-    #Seleccion de volver con enter
-    print("\n--- Departamentos del Museo (Presione Enter para regresar) ---")
+    print("\n--- Departamentos (Enter para volver | 'q' para salir) ---")
     if departamentos:
         for dept in departamentos:
             print(f"ID: {dept['departmentId']:<5} Nombre: {dept['displayName']}")
     print("-----------------------------------------------------------------")
 
 def obtener_id_departamento():
-    entrada = input("Ingrese el ID del departamento que desea consultar: ")
+    entrada = input("Ingrese el ID del departamento: ")
+    if entrada.lower() == 'q':
+        animacion_despedida()
+        sys.exit()
     if not entrada.strip():
         return 'volver'
     try:
@@ -31,8 +33,7 @@ def obtener_id_departamento():
         return None
 
 def mostrar_nacionalidades(nacionalidades):
-    #Seleccion de volver con enter
-    print("\n--- Nacionalidades (Presione Enter para regresar) ---")
+    print("\n--- Nacionalidades (Enter para volver | 'q' para salir) ---")
     if nacionalidades:
         for i, nat in enumerate(nacionalidades, 1):
             print(f"{i}. {nat}")
@@ -40,7 +41,9 @@ def mostrar_nacionalidades(nacionalidades):
 
 def obtener_opcion_nacionalidad(max_opcion):
     entrada = input("Seleccione el número de la nacionalidad: ")
-    #Revisa que el valor de entrada no este vacio
+    if entrada.lower() == 'q':
+        animacion_despedida()
+        sys.exit()
     if not entrada.strip():
         return 'volver'
     try:
@@ -52,8 +55,7 @@ def obtener_opcion_nacionalidad(max_opcion):
         return None
 
 def obtener_nombre_artista():
-    #se actualiza el texto para indicar que se puede presionar Enter.
-    return input("Ingrese el nombre del autor (o presione Enter para regresar): ")
+    return input("Ingrese el nombre del autor (Enter para volver | 'q' para salir): ")
 
 def mostrar_resumen_obras(obras):
     if not obras:
@@ -65,8 +67,7 @@ def mostrar_resumen_obras(obras):
     print("-------------------------\n")
 
 def obtener_id_obra():
-    #Se actualiza el texto para indicar que se puede volver con enter
-    return input("Ingrese el ID de una obra para ver sus detalles (o presione Enter para volver): ")
+    return input("Ingrese el ID de una obra para ver sus detalles (Enter para volver): ")
 
 def mostrar_detalles_obra(obra):
     print("\n--- Detalles de la Obra ---")

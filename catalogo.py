@@ -2,6 +2,7 @@ from cliente_api import MetMuseumAPI
 from utilidades import cargar_nacionalidades
 
 class CatalogoArte:
+    #Contiene el flujo de datos para la gestión del catálogo de arte
     def __init__(self):
         self.api = MetMuseumAPI()
         self.nacionalidades = cargar_nacionalidades()

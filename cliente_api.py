@@ -1,7 +1,7 @@
 import requests
 from modelos import Artista, ObraDeArte
-
 class MetMuseumAPI:
+    """Gestiona todas las comunicaciones con la API del Museo Metropolitano."""
     BASE_URL = "https://collectionapi.metmuseum.org/public/collection/v1"
 
     def obtener_departamentos(self):
@@ -27,14 +27,12 @@ class MetMuseumAPI:
             response = requests.get(f"{self.BASE_URL}/objects/{id_objeto}")
             response.raise_for_status()
             data = response.json()
-
             artista = Artista(
                 nombre=data.get('artistDisplayName', 'Desconocido'),
                 nacionalidad=data.get('artistNationality', 'Desconocida'),
                 fecha_nacimiento=data.get('artistBeginDate', 'N/A'),
                 fecha_muerte=data.get('artistEndDate', 'N/A')
             )
-
             obra = ObraDeArte(
                 id_objeto=data.get('objectID'),
                 titulo=data.get('title', 'Sin título'),

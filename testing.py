@@ -2,36 +2,41 @@
 # URL: https://metmuseum.github.io/
 # https://drive.google.com/file/d/1tJEU6_VEeO6xFH8fssSfkw4M8MaN6U5A/view?usp=sharing
 
-import requests
-from PIL import Image
-from io import BytesIO
-from modelos import ObraDeArte
-import os
+#EJEMPLO DE USO THREADING
+import threading
+import time
 
-def limpiar_consola():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def simular_descarga(nombre_archivo, tiempo_espera):
+    """
+    Esta es la función que se ejecutará en un hilo separado.
+    Simula una tarea que toma tiempo.
+    """
+    print(f"🟢 Iniciando la descarga del archivo: {nombre_archivo}...")
+    time.sleep(tiempo_espera) # Simula el tiempo que tarda la descarga
+    print(f"\n✅ ¡Descarga de '{nombre_archivo}' completada!")
 
-def cargar_nacionalidades():
-    url = "https://drive.google.com/uc?export=download&id=1tJEU6_VEeO6xFH8fssSfkw4M8MaN6U5A"
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return [line.strip() for line in response.content.decode('utf-8').splitlines() if line.strip()]
-    except requests.exceptions.RequestException as e:
-        print(f"Error crítico: no se pudo cargar la lista de nacionalidades. {e}")
-        return []
+# --- Programa Principal ---
 
-def mostrar_imagen(obra):
-    if not obra.url_imagen:
-        print("Lo sentimos, esta obra no tiene una imagen disponible.")
-        return
-    try:
-        print(f"Cargando imagen para '{obra.titulo}'...")
-        response = requests.get(obra.url_imagen)
-        response.raise_for_status()
-        imagen = Image.open(BytesIO(response.content))
-        imagen.show(title=obra.titulo)
-    except requests.exceptions.RequestException as e:
-        print(f"Error al descargar la imagen: {e}")
-    except Exception as e:
-        print(f"No se pudo mostrar la imagen. Error: {e}")
+print("▶️  Iniciando el programa principal.")
+
+# 1. Crear el hilo (el "ayudante")
+#    - target: es la función que queremos que el hilo ejecute.
+#    - args: es una tupla con los argumentos que necesita esa función.
+hilo_descarga = threading.Thread(target=simular_descarga, args=("documento_importante.pdf", 5))
+
+# 2. Iniciar la ejecución del hilo
+#    Esto pone a trabajar al "ayudante" en segundo plano.
+hilo_descarga.start()
+
+# 3. El programa principal continúa sin esperar
+print("\nEl programa principal no está bloqueado. Puede hacer otras cosas mientras se descarga el archivo.")
+for i in range(1, 4):
+    print(f"Haciendo otra tarea en el hilo principal ({i}/3)...")
+    time.sleep(1)
+
+print("\n🏁 El programa principal ha terminado sus tareas, pero la descarga podría seguir.")
+
+# Opcional: Si necesitas que el programa principal espere a que el hilo termine antes de continuar,
+# puedes usar el método .join()
+# hilo_descarga.join()
+# print("Ahora sí, el programa confirma que la descarga ha finalizado por completo.")

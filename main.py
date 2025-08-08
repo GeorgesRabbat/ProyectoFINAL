@@ -1,9 +1,33 @@
 from catalogo import CatalogoArte
 from interfaz_usuario import *
-from utilidades import mostrar_imagen, limpiar_consola
+from utilidades import *
+import threading
+
+def ejecutar_con_spinner(target_func, *args):
+    """Muestra un spinner mientras una función se ejecuta en segundo plano."""
+    spinner_chars = "|/-\\"
+    stop_spinner = threading.Event()
+
+    def spinner():
+        i = 0
+        while not stop_spinner.is_set():
+            print(f"\rCargando... {spinner_chars[i % len(spinner_chars)]}", end="", flush=True)
+            time.sleep(0.1)
+            i += 1
+        print("\r" + " " * 20 + "\r", end="") # Limpia la línea del spinner (Puede dar error)
+
+    spinner_thread = threading.Thread(target=spinner)
+    spinner_thread.start()
+    
+    result = target_func(*args)
+    
+    stop_spinner.set()
+    spinner_thread.join()
+    return result
 
 def gestionar_busqueda_por_departamento(catalogo):
-    departamentos = catalogo.obtener_departamentos()
+    """Gestiona el flujo de búsqueda de obras por departamento."""
+    departamentos = ejecutar_con_spinner(catalogo.obtener_departamentos)
     if not departamentos:
         mostrar_mensaje("No se pudieron cargar los departamentos.", es_error=True)
         input("Presione Enter para continuar...")
@@ -18,8 +42,7 @@ def gestionar_busqueda_por_departamento(catalogo):
         input("Presione Enter para continuar...")
         return
 
-    mostrar_mensaje("Buscando obras... Esto puede tardar un momento.")
-    obras = catalogo.buscar_por_departamento(id_dept)
+    obras = ejecutar_con_spinner(catalogo.buscar_por_departamento, id_dept)
     
     if obras is None:
         mostrar_mensaje(f"El ID de departamento '{id_dept}' no es válido.", es_error=True)
@@ -29,6 +52,7 @@ def gestionar_busqueda_por_departamento(catalogo):
     gestionar_resultados(catalogo, obras)
 
 def gestionar_busqueda_por_nacionalidad(catalogo):
+    """Gestiona el flujo de búsqueda de obras por nacionalidad del artista."""
     nacionalidades = catalogo.nacionalidades
     if not nacionalidades:
         mostrar_mensaje("La lista de nacionalidades no está disponible.", es_error=True)
@@ -45,20 +69,22 @@ def gestionar_busqueda_por_nacionalidad(catalogo):
         return
     
     nacionalidad_seleccionada = nacionalidades[opcion - 1]
-    mostrar_mensaje(f"Buscando obras de artistas con nacionalidad '{nacionalidad_seleccionada}'...")
-    obras = catalogo.buscar_por_nacionalidad(nacionalidad_seleccionada)
+    obras = ejecutar_con_spinner(catalogo.buscar_por_nacionalidad, nacionalidad_seleccionada)
     gestionar_resultados(catalogo, obras)
 
 def gestionar_busqueda_por_artista(catalogo):
+    """Gestiona el flujo de búsqueda de obras por nombre del artista."""
     nombre_artista = obtener_nombre_artista()
-    ## CAMBIO ## - Ahora se comprueba si la entrada está vacía para volver.
+    if nombre_artista.lower() == 'q':
+        animacion_despedida()
+        sys.exit()
     if not nombre_artista.strip(): return
     
-    mostrar_mensaje(f"Buscando obras de '{nombre_artista}'...")
-    obras = catalogo.buscar_por_nombre_artista(nombre_artista)
+    obras = ejecutar_con_spinner(catalogo.buscar_por_nombre_artista, nombre_artista)
     gestionar_resultados(catalogo, obras)
 
 def gestionar_resultados(catalogo, obras):
+    """Muestra una lista de resultados y permite al usuario ver detalles."""
     if not obras:
         mostrar_resumen_obras(obras)
         input("Presione Enter para continuar...")
@@ -69,7 +95,6 @@ def gestionar_resultados(catalogo, obras):
         mostrar_resumen_obras(obras)
         id_obra_str = obtener_id_obra()
 
-        ## CAMBIO ## - Ahora se comprueba si la entrada está vacía para volver.
         if not id_obra_str.strip():
             break
         
@@ -86,6 +111,8 @@ def gestionar_resultados(catalogo, obras):
             input("Presione Enter para intentarlo de nuevo...")
 
 def main():
+    """Función principal que inicia y controla el bucle de la aplicación."""
+    animacion_bienvenida()
     catalogo = CatalogoArte()
     
     while True:
@@ -100,11 +127,12 @@ def main():
         elif opcion == '3':
             gestionar_busqueda_por_artista(catalogo)
         elif opcion == '4':
-            mostrar_mensaje("Gracias por usar el catálogo. ¡Hasta pronto!")
-            break
+            break # Sale del bucle para mostrar la animación de despedida
         else:
             mostrar_mensaje("Opción no válida. Por favor, intente de nuevo.", es_error=True)
             input("Presione Enter para continuar...")
+    
+    animacion_despedida()
 
 if __name__ == "__main__":
     main()
