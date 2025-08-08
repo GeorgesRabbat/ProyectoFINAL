@@ -1,3 +1,5 @@
+#EJEMPLO DE USO PILLOW
+
 import requests
 from PIL import Image
 
@@ -53,3 +55,5 @@ if ruta_final:
         img.show()
     except Exception as e:
         print(f"No se pudo abrir la imagen. Error: {e}")
+
+#FUENTE: Departamento de Gestión de Proyectos y Sistemas (2025). MetroArt. [PDF]

@@ -1,8 +1,5 @@
-# API Documentation
-# URL: https://metmuseum.github.io/
-# https://drive.google.com/file/d/1tJEU6_VEeO6xFH8fssSfkw4M8MaN6U5A/view?usp=sharing
-
 #EJEMPLO DE USO THREADING
+
 import threading
 import time
 
@@ -35,3 +32,5 @@ for i in range(1, 4):
     time.sleep(1)
 
 print("\n🏁 El programa principal ha terminado sus tareas, pero la descarga podría seguir.")
+
+#FUENTE: threading — Paralelismo basado en hilos — documentación de Python - 3.8.20. (s. f.). https://docs.python.org/es/3.8/library/threading.html
