@@ -35,8 +35,3 @@ for i in range(1, 4):
     time.sleep(1)
 
 print("\n🏁 El programa principal ha terminado sus tareas, pero la descarga podría seguir.")
-
-# Opcional: Si necesitas que el programa principal espere a que el hilo termine antes de continuar,
-# puedes usar el método .join()
-# hilo_descarga.join()
-# print("Ahora sí, el programa confirma que la descarga ha finalizado por completo.")

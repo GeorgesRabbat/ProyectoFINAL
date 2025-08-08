@@ -1,3 +1,6 @@
+import sys
+from utilidades import animacion_despedida
+
 def mostrar_mensaje(mensaje, es_error=False):
     prefijo = ">> ERROR:" if es_error else ">>"
     print(f"\n{prefijo} {mensaje}")
