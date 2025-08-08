@@ -10,7 +10,7 @@ class MetMuseumAPI:
             response.raise_for_status()
             return response.json().get('departments', [])
         except requests.exceptions.RequestException as e:
-            print(f"Error al obtener los departamentos: {e}")
+            print(f"Error de conexión al obtener los departamentos: {e}")
             return None
 
     def buscar_objetos(self, consulta):
@@ -19,7 +19,7 @@ class MetMuseumAPI:
             response.raise_for_status()
             return response.json().get('objectIDs', [])
         except requests.exceptions.RequestException as e:
-            print(f"Error durante la búsqueda de '{consulta}': {e}")
+            print(f"Error de conexión durante la búsqueda de '{consulta}': {e}")
             return []
 
     def obtener_detalles_obra(self, id_objeto):
