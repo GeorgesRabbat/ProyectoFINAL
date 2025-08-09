@@ -5,7 +5,7 @@ class MetMuseumAPI:
     BASE_URL = "https://collectionapi.metmuseum.org/public/collection/v1"
 
     def obtener_departamentos(self):
-        # Obtiene la lista de todos los departamentos del museo.
+        """Obtiene la lista de todos los departamentos del museo."""
         try:
             response = requests.get(f"{self.BASE_URL}/departments")
             response.raise_for_status()

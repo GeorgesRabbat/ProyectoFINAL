@@ -2,7 +2,7 @@ from cliente_api import MetMuseumAPI
 from utilidades import cargar_nacionalidades
 
 class CatalogoArte:
-    #Contiene el flujo de datos para la gestión del catálogo de arte
+    """Contiene el flujo de datos para la gestión del catálogo de arte."""
     def __init__(self):
         """Inicializa el catálogo, la API y carga datos iniciales."""
         self.api = MetMuseumAPI()
