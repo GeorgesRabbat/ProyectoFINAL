@@ -1,6 +1,3 @@
-# import sys
-# from utilidades import animacion_despedida
-
 def mostrar_mensaje(mensaje, es_error=False):
     """Muestra un mensaje formateado al usuario."""
     prefijo = ">> ERROR:" if es_error else ">>"
@@ -30,9 +27,6 @@ def mostrar_departamentos(departamentos):
 def obtener_id_departamento():
     """Solicita al usuario el ID de un departamento."""
     entrada = input("Ingrese el ID del departamento: ")
-    # if entrada.lower() == 'q':
-    #     animacion_despedida()
-    #     sys.exit()
     if not entrada.strip():
         return 'volver'
     try:
@@ -51,9 +45,6 @@ def mostrar_nacionalidades(nacionalidades):
 def obtener_opcion_nacionalidad(max_opcion):
     """Solicita al usuario que elija una nacionalidad de la lista."""
     entrada = input("Seleccione el número de la nacionalidad: ")
-    # if entrada.lower() == 'q':
-    #     animacion_despedida()
-    #     sys.exit()
     if not entrada.strip():
         return 'volver'
     try:

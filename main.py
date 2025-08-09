@@ -1,29 +1,6 @@
 from catalogo import CatalogoArte
 from interfaz_usuario import *
 from utilidades import *
-# import threading
-
-# def ejecutar_con_spinner(target_func, *args):
-#     """Muestra un spinner mientras una función se ejecuta en segundo plano."""
-#     spinner_chars = "|/-\\"
-#     stop_spinner = threading.Event()
-
-#     def spinner():
-#         i = 0
-#         while not stop_spinner.is_set():
-#             print(f"\rCargando... {spinner_chars[i % len(spinner_chars)]}", end="", flush=True)
-#             time.sleep(0.1)
-#             i += 1
-#         print("\r" + " " * 20 + "\r", end="") # Limpia la línea del spinner
-
-#     spinner_thread = threading.Thread(target=spinner)
-#     spinner_thread.start()
-    
-#     result = target_func(*args)
-    
-#     stop_spinner.set()
-#     spinner_thread.join()
-#     return result
 
 def gestionar_busqueda_por_departamento(catalogo):
     """Gestiona el flujo de búsqueda de obras por departamento."""
@@ -78,9 +55,6 @@ def gestionar_busqueda_por_nacionalidad(catalogo):
 def gestionar_busqueda_por_artista(catalogo):
     """Gestiona el flujo de búsqueda de obras por nombre del artista."""
     nombre_artista = obtener_nombre_artista()
-    # if nombre_artista.lower() == 'q':
-    #     animacion_despedida()
-    #     sys.exit()
     if not nombre_artista.strip(): return
     
     print(f"\nBuscando obras de '{nombre_artista}'...")
@@ -95,7 +69,6 @@ def gestionar_resultados(catalogo, obras):
         return
 
     while True:
-        # limpiar_consola()
         mostrar_resumen_obras(obras)
         id_obra_str = obtener_id_obra()
 
@@ -105,7 +78,6 @@ def gestionar_resultados(catalogo, obras):
         obra_seleccionada = catalogo.obtener_obra_por_id(id_obra_str, obras)
         
         if obra_seleccionada:
-            # limpiar_consola()
             mostrar_detalles_obra(obra_seleccionada)
             if preguntar_mostrar_imagen():
                 mostrar_imagen(obra_seleccionada)
@@ -117,13 +89,11 @@ def gestionar_resultados(catalogo, obras):
 def main():
 
     """====================================FUNCION DE BUCLE===================================="""
-    
-    # animacion_bienvenida()
+
     print("Iniciando Catálogo de Arte...")
     catalogo = CatalogoArte()
     
     while True:
-        # limpiar_consola()
         mostrar_menu_principal()
         opcion = obtener_opcion_menu()
 
@@ -138,8 +108,7 @@ def main():
         else:
             mostrar_mensaje("Opción no válida. Por favor, intente de nuevo.", es_error=True)
             input("Presione Enter para continuar...")
-    
-    # animacion_despedida()
+
     print("\nGracias por su visita. ¡Hasta pronto!\n")
 
 if __name__ == "__main__":

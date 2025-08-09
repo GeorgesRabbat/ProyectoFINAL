@@ -1,32 +1,7 @@
-# import os
-# import time
-# import threading
-# import sys
 import requests
 from PIL import Image
 from io import BytesIO
 from modelos import ObraDeArte
-
-# def limpiar_consola():
-#     """Limpia la pantalla de la consola."""
-#     os.system('cls' if os.name == 'nt' else 'clear')
-
-# def animacion_bienvenida():
-#     """Muestra una animación simple de bienvenida."""
-#     limpiar_consola()
-#     mensaje = "Bienvenido al Catálogo de Arte"
-#     for i in range(len(mensaje) + 1):
-#         print(f"\r{' ' * 10}[ {mensaje[:i]} ]{' ' * 10}", end="", flush=True)
-#         time.sleep(0.05)
-#     time.sleep(1)
-
-# def animacion_despedida():
-#     """Muestra una animación simple de despedida."""
-#     limpiar_consola()
-#     mensaje = "Gracias por su visita. ¡Hasta pronto!"
-#     print(f"\n{mensaje}\n")
-#     time.sleep(1.5)
-#     limpiar_consola()
 
 def cargar_nacionalidades():
     """Descarga y devuelve una lista de nacionalidades desde una URL."""
