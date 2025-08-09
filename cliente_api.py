@@ -1,10 +1,11 @@
 import requests
 from modelos import Artista, ObraDeArte
+
 class MetMuseumAPI:
-    """Gestiona todas las comunicaciones con la API del Museo Metropolitano."""
     BASE_URL = "https://collectionapi.metmuseum.org/public/collection/v1"
 
     def obtener_departamentos(self):
+        # Obtiene la lista de todos los departamentos del museo.
         try:
             response = requests.get(f"{self.BASE_URL}/departments")
             response.raise_for_status()
@@ -14,6 +15,7 @@ class MetMuseumAPI:
             return None
 
     def buscar_objetos(self, consulta):
+        """Busca IDs de objetos basados en una consulta de texto."""
         try:
             response = requests.get(f"{self.BASE_URL}/search?q={consulta}")
             response.raise_for_status()
@@ -23,6 +25,7 @@ class MetMuseumAPI:
             return []
 
     def obtener_detalles_obra(self, id_objeto):
+        """Obtiene los detalles completos de una obra por su ID."""
         try:
             response = requests.get(f"{self.BASE_URL}/objects/{id_objeto}")
             response.raise_for_status()

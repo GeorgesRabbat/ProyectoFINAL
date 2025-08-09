@@ -4,11 +4,13 @@ from utilidades import cargar_nacionalidades
 class CatalogoArte:
     #Contiene el flujo de datos para la gestión del catálogo de arte
     def __init__(self):
+        """Inicializa el catálogo, la API y carga datos iniciales."""
         self.api = MetMuseumAPI()
         self.nacionalidades = cargar_nacionalidades()
         self.cache_obras = {}
 
     def _obtener_detalles_obra(self, id_objeto):
+        """Obtiene detalles de una obra, usando caché si es posible."""
         if id_objeto in self.cache_obras:
             return self.cache_obras[id_objeto]
         
@@ -18,9 +20,11 @@ class CatalogoArte:
         return obra
 
     def obtener_departamentos(self):
+        """Devuelve la lista de todos los departamentos."""
         return self.api.obtener_departamentos()
 
     def buscar_por_departamento(self, id_departamento):
+        """Busca obras por departamento y devuelve una lista de objetos ObraDeArte."""
         departamentos = self.obtener_departamentos()
         if not departamentos: return []
         
@@ -34,6 +38,7 @@ class CatalogoArte:
         return [obra for obra in obras if obra is not None]
 
     def buscar_por_nacionalidad(self, nacionalidad):
+        """Busca obras por la nacionalidad del artista."""
         ids_objetos = self.api.buscar_objetos(nacionalidad)
         obras = []
         for obj_id in ids_objetos[:50]:
@@ -44,6 +49,7 @@ class CatalogoArte:
         return obras
         
     def buscar_por_nombre_artista(self, nombre_artista):
+        """Busca obras por el nombre del artista."""
         ids_objetos = self.api.buscar_objetos(nombre_artista)
         obras = []
         for obj_id in ids_objetos[:50]:
@@ -54,6 +60,7 @@ class CatalogoArte:
         return obras
         
     def obtener_obra_por_id(self, id_obra, obras_encontradas):
+        """Obtiene una obra específica por su ID de una lista existente."""
         try:
             id_obra_num = int(id_obra)
             for obra in obras_encontradas:
